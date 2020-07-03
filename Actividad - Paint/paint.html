@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paint</title>
+    <script src="paint.js"></script>
+    
+</head>
+
+<body onload="main()">
+
+    <div>
+        <canvas id="paintCanvas" width="800" height="400" style="border: black; border-style: solid; border-width: 2px;"></canvas><br>
+
+        <div>
+            <h3>Selecciona una opción</h3>
+            <img id="paintImg" src="https://image.flaticon.com/icons/svg/715/715750.svg" width="50px"  height="50px" onclick="paintOptions(true)">
+            <img id="gomaImg" src="https://image.flaticon.com/icons/svg/1010/1010641.svg" width="50px" height="50px" onclick="paintOptions(false)">
+        </div>
+        <div id="options">
+            Selecciona un color: <input type="color" id="color" oninput="selectColor(this.value);"><br>
+            Grosor: <input type="range" id="grosor" oninput="selectGrosor(this.value)" min="1" max="5" value="1"><br>
+            <button onclick="cleanCanvas()">Borrar canvas</button><br>
+        </div>
+        
+ 
+
+    </div>
+            
+</body>
+
+</html>
