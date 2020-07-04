@@ -12,3 +12,7 @@ drawTriangleOne(x, y, size/2, subdivision-1);
 drawTriangleOne(x + (size/2), y, size/2, subdivision-1);
 drawTriangleOne(x + (size/4), y + size/2, size/2, subdivision-1);
 ```
+
+## Demo
+
+![Trifuerza demo](https://media.giphy.com/media/TIXHNMdBMrIK27TGOf/giphy.gif)
