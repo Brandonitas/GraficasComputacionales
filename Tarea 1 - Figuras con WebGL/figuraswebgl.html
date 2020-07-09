@@ -1,0 +1,33 @@
+<html>
+
+<head>
+<title>Figuras 3D</title>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<script src="../libs/gl-matrix/gl-matrix.js"></script>
+<script src="../libs/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+<script src="figuraswebgl.js"></script>
+
+<script type="text/javascript">
+          
+	$(document).ready(
+			function() {
+		        let canvas = document.getElementById("webglcanvas");
+			    let gl = initWebGL(canvas);
+		        initViewport(gl, canvas);
+                let pyramid = createPyramid(gl, [-2 , 0, -2], [0, 1, .2]);
+				initGL(canvas);
+		        initShader(gl);
+				run(gl, [pyramid]);
+			}
+	);
+
+</script>
+
+</head>
+<body>
+
+	<canvas id="webglcanvas" style="border: none;" width="800" height="600">
+	</canvas>
+
+</body>
+</html>
