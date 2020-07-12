@@ -14,10 +14,13 @@
 		        let canvas = document.getElementById("webglcanvas");
 			    let gl = initWebGL(canvas);
 		        initViewport(gl, canvas);
-                let pyramid = createPyramid(gl, [-2 , 0, -2], [0.1, 1.0, 0.2]);
+				let pyramid = createPyramid(gl, [-2 , 0, -2], [0.1, 1.0, 0.2]);
+				let octaedro = createOctaedro(gl, [0 , 0, -2],  [0, 1, 0]);
+				let dodecaedro = createDodecaedro(gl, [4 , 0, -6],  [0, 0, 0.1], [0.0, .1, 0,0]);
+				
 				initGL(canvas);
 		        initShader(gl);
-				run(gl, [pyramid]);
+				run(gl, [pyramid, octaedro, dodecaedro]);
 			}
 	);
 
