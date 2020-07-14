@@ -112,7 +112,7 @@ function initGL(gl, canvas)
      projectionMatrix = mat4.create();
     
      mat4.perspective(projectionMatrix, Math.PI / 4, canvas.width / canvas.height, 1, 100);
-     mat4.translate(projectionMatrix, projectionMatrix, [0, 0, -1]);
+     mat4.translate(projectionMatrix, projectionMatrix, [0, -1, -1]);
 }
 
 function draw(gl, objs) 
@@ -152,9 +152,29 @@ function update(glCtx, objs)
     objs[i].update();
 }
 
-function createTriangle(gl, translation)
+function createTriangle(gl, translation, cara)
 {
- 
+    let verts = [];
+    let faceColors = [];
+    switch (cara){
+        case 1:
+            verts = verts1;
+            faceColors = faceColors1;
+            break;
+        case 2:
+            verts = verts2;
+            faceColors = faceColors2;
+            break;
+        case 3:
+            verts = verts3;
+            faceColors = faceColors3;
+            break;
+        case 4:
+            verts = verts4;
+            faceColors = faceColors4;
+            break;           
+    }
+
     console.log("verts",verts)
     console.log("colors",faceColors)
 
@@ -218,27 +238,53 @@ function main()
     initViewport(glCtx, canvas);
     initGL(glCtx, canvas);
 
-    createVerts(0, 1.4, 0, -1, -1, 1, 1, -1, 1, 4,glCtx);
-    //createVerts(0, 1.4, 0, -1, -1, 0, 1, -1, 0, 3,glCtx);
+    createVerts(1.7, 0.0, 1.0,-1.7, 0.0, 1.0,0.0, 0.0, -2.0, 4,glCtx, 1);
+    createVerts( 1.7, 0.0, 1.0, -1.7, 0.0, 1.0, 0.0, 2.0, 0.0, 4,glCtx, 2);
+    createVerts(1.7, 0.0, 1.0, 0.0, 0.0, -2.0, 0.0, 2.0, 0.0, 4,glCtx, 3);
+    createVerts( -1.7, 0.0, 1.0, 0.0, 0.0, -2.0, 0.0, 2.0, 0.0, 4,glCtx,4);
 
     
-    let triangle = createTriangle(glCtx,  [0, 0, -4]);
+    let triangle = createTriangle(glCtx,  [0, 0, -4],1);
+    let triangle2 = createTriangle(glCtx,  [0, 0, -4],2);
+    let triangle3 = createTriangle(glCtx,  [0, 0, -4],3);
+    let triangle4 = createTriangle(glCtx,  [0, 0, -4],4);
     
     initShader(glCtx, vertexShaderSource, fragmentShaderSource);
     
-    update(glCtx, [triangle]);
+    update(glCtx, [triangle,triangle2,triangle3,triangle4]);
     
 }
 
-let verts = [];
-let obj = [];
-let faceColors = [];
+let verts1 = [];
+let faceColors1 = [];
+let verts2 = [];
+let faceColors2 = [];
+let verts3 = [];
+let faceColors3 = [];
+let verts4 = [];
+let faceColors4 = [];
 
-function createVerts(x3,y3,z3,x1,y1,z1,x2,y2,z2,subdivision,glCtx){
+function createVerts(x3,y3,z3,x1,y1,z1,x2,y2,z2,subdivision,glCtx, cara){
 
     if(subdivision == 1){ 
-        verts.push(x1,y1,z1,x2,y2,z2,x3,y3,z3);   
-        faceColors.push([Math.random(),Math.random(),Math.random(),Math.random()]);
+        switch(cara){
+            case 1:
+                verts1.push(x1,y1,z1,x2,y2,z2,x3,y3,z3);   
+                faceColors1.push([Math.random(),Math.random(),Math.random(),Math.random()]);
+                break;
+            case 2:
+                verts2.push(x1,y1,z1,x2,y2,z2,x3,y3,z3);   
+                faceColors2.push([Math.random(),Math.random(),Math.random(),Math.random()]);
+                break;
+            case 3:
+                verts3.push(x1,y1,z1,x2,y2,z2,x3,y3,z3);   
+                faceColors3.push([Math.random(),Math.random(),Math.random(),Math.random()]);
+                break;
+            case 4:
+                verts4.push(x1,y1,z1,x2,y2,z2,x3,y3,z3);   
+                faceColors4.push([Math.random(),Math.random(),Math.random(),Math.random()]);
+                break;                                                
+        }
 
     } else if(subdivision > 1) {
        
@@ -254,9 +300,9 @@ function createVerts(x3,y3,z3,x1,y1,z1,x2,y2,z2,subdivision,glCtx){
         let my13 = (y1+y3) /2
         let mz13 = (z1+z3) /2
 
-        createVerts(x1,y1,z1,mx12,my12,mz12,mx13,my13,mz13,subdivision-1,glCtx);
-        createVerts(mx12,my12,mz12,x2,y2,z2,mx23,my23,mz23,subdivision-1,glCtx);
-        createVerts(mx13,my13,mz13,mx23,my23,mz23,x3,y3,z3,subdivision-1,glCtx);
+        createVerts(x1,y1,z1,mx12,my12,mz12,mx13,my13,mz13,subdivision-1,glCtx,cara);
+        createVerts(mx12,my12,mz12,x2,y2,z2,mx23,my23,mz23,subdivision-1,glCtx,cara);
+        createVerts(mx13,my13,mz13,mx23,my23,mz23,x3,y3,z3,subdivision-1,glCtx,cara);
         
     }
     
