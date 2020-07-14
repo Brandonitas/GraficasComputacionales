@@ -149,23 +149,25 @@ function update(glCtx, objs)
     draw(glCtx, objs);
 }
 
-function createTriangle(x1,y1,z1,x2,y2,z2,x3,y3,z3,gl, translation)
+function createTriangle(gl, translation)
 {
  
-    let verts = [x1,y1,z1,x2,y2,z2,x3,y3,z3];
-    console.log("fasfa",verts)
+    console.log("verts",verts)
+    console.log("colors",faceColors)
 
     let vertexBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
     
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(verts), gl.STATIC_DRAW);
 
-    // Color data
-    let vertexColors = [
-        1, 0, 0, 1,
-        0, 1, 0, 1,
-        0, 0, 1, 1
-    ];
+    // Each vertex must have the color information, that is why the same color is concatenated 4 times, one for each vertex of the cube's face.
+    let vertexColors = [];
+
+    //Tenemos 5 vertices por cara
+    faceColors.forEach(color =>{
+        for (let j=0; j < 3; j++)
+            vertexColors.push(...color);
+    });
     
     let colorBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
@@ -175,8 +177,11 @@ function createTriangle(x1,y1,z1,x2,y2,z2,x3,y3,z3,gl, translation)
     let triangleIndexBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, triangleIndexBuffer);
 
-    let triangleIndices = [0, 1, 2]
-
+    let triangleIndices = [];
+    for(let i = 0;i<faceColors.length*3;i++){
+        triangleIndices.push(i);        
+    }
+    
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(triangleIndices), gl.STATIC_DRAW);
     
     let triangle = {
@@ -186,6 +191,18 @@ function createTriangle(x1,y1,z1,x2,y2,z2,x3,y3,z3,gl, translation)
         };
 
     mat4.translate(triangle.modelViewMatrix, triangle.modelViewMatrix, translation);
+
+    triangle.update = function()
+    {
+        let now = Date.now();
+        let deltat = now - this.currentTime;
+        this.currentTime = now;
+        let fract = deltat / duration;
+        let angle = Math.PI * 2 * fract;
+
+        mat4.rotate(this.modelViewMatrix, this.modelViewMatrix, angle, [0, 1, 0]);
+        
+    };
     
     return triangle;
 }
@@ -198,28 +215,27 @@ function main()
     initViewport(glCtx, canvas);
     initGL(glCtx, canvas);
 
-    createVerts(0, 1.4, 0, -1, -1, 0, 1, -1, 0, 2,glCtx);
+    //createVerts(0, 1.4, 0, -1, -1, 0, 1, -1, 0, 3,glCtx);
+    createVerts(0, 1.4, 0, -1, -1, 0, 1, -1, 0, 3,glCtx);
 
-    console.log(verts);
-
+    
+    let triangle = createTriangle(glCtx,  [0, 0, -4]);
+    
+    initShader(glCtx, vertexShaderSource, fragmentShaderSource);
+    
+    update(glCtx, [triangle]);
     
 }
 
 let verts = [];
 let obj = [];
+let faceColors = [];
 
 function createVerts(x3,y3,z3,x1,y1,z1,x2,y2,z2,subdivision,glCtx){
 
     if(subdivision == 1){ 
-        verts.push(x1,y1,z1,x2,y2,z2,x3,y3,z3);
-
-        console.log("HOLA",obj)
-        let triangle = createTriangle(x1,y1,z1,x2,y2,z2,x3,y3,z3,glCtx,  [0, 0, -4]);
-        console.log("TRIANGLE", triangle)
-        initShader(glCtx, vertexShaderSource, fragmentShaderSource);
-        obj.push(triangle);
-        update(glCtx, obj);
-        
+        verts.push(x1,y1,z1,x2,y2,z2,x3,y3,z3);   
+        faceColors.push([Math.random(),Math.random(),Math.random(),Math.random()]);
 
     } else if(subdivision > 1) {
        
