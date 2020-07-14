@@ -232,6 +232,9 @@ function createTriangle(gl, translation, cara)
 
 function main()
 {
+
+    sliderEvent();
+
     let canvas = document.getElementById("pyramidCanvas");
     let glCtx = initWebGL(canvas);
 
@@ -243,7 +246,6 @@ function main()
     createVerts(1.7, 0.0, 1.0, 0.0, 0.0, -2.0, 0.0, 2.0, 0.0, 4,glCtx, 3);
     createVerts( -1.7, 0.0, 1.0, 0.0, 0.0, -2.0, 0.0, 2.0, 0.0, 4,glCtx,4);
 
-    
     let triangle = createTriangle(glCtx,  [0, 0, -4],1);
     let triangle2 = createTriangle(glCtx,  [0, 0, -4],2);
     let triangle3 = createTriangle(glCtx,  [0, 0, -4],3);
@@ -306,4 +308,45 @@ function createVerts(x3,y3,z3,x1,y1,z1,x2,y2,z2,subdivision,glCtx, cara){
         
     }
     
+}
+
+
+function sliderEvent()
+{
+
+    let canvas = document.getElementById("pyramidCanvas");
+    let glCtx = initWebGL(canvas);
+
+    initViewport(glCtx, canvas);
+    initGL(glCtx, canvas);
+
+    document.getElementById("slider").oninput = function(event) {
+        var subdivision = event.target.value;
+        document.getElementById("sliderValue").innerHTML = "Subdivisions: " + event.target.value;
+        
+        verts1 = []
+        verts2 = []
+        verts3 = []
+        verts4 = []
+        faceColors1 = []
+        faceColors2 = []
+        faceColors3 = []
+        faceColors4 = []
+        
+        createVerts(1.7, 0.0, 1.0,-1.7, 0.0, 1.0,0.0, 0.0, -2.0, subdivision,glCtx, 1);
+        createVerts( 1.7, 0.0, 1.0, -1.7, 0.0, 1.0, 0.0, 2.0, 0.0, subdivision,glCtx, 2);
+        createVerts(1.7, 0.0, 1.0, 0.0, 0.0, -2.0, 0.0, 2.0, 0.0, subdivision,glCtx, 3);
+        createVerts( -1.7, 0.0, 1.0, 0.0, 0.0, -2.0, 0.0, 2.0, 0.0, subdivision,glCtx,4);
+    
+        let triangle = createTriangle(glCtx,  [0, 0, -4],1);
+        let triangle2 = createTriangle(glCtx,  [0, 0, -4],2);
+        let triangle3 = createTriangle(glCtx,  [0, 0, -4],3);
+        let triangle4 = createTriangle(glCtx,  [0, 0, -4],4);
+        
+        initShader(glCtx, vertexShaderSource, fragmentShaderSource);
+        
+        update(glCtx, [triangle,triangle2,triangle3,triangle4]);
+
+    };
+
 }
