@@ -1,6 +1,7 @@
 let projectionMatrix = null, shaderProgram = null;
 let shaderVertexPositionAttribute = null, shaderVertexColorAttribute = null, shaderProjectionMatrixUniform = null, shaderModelViewMatrixUniform = null;
 let mat4 = glMatrix.mat4;
+let duration = 5000; // ms
 
 let vertexShaderSource = `
 attribute vec3 vertexPos;
@@ -107,11 +108,11 @@ function initViewport(gl, canvas)
 
 function initGL(gl, canvas)
 {
-    gl.clearColor(0.0, 0.0, 0.0, 1.0);
-    gl.clear(gl.COLOR_BUFFER_BIT);
-
-    projectionMatrix = mat4.create();
-    mat4.perspective(projectionMatrix, Math.PI / 4, canvas.width / canvas.height, 1, 4);
+     // Create a project matrix with 45 degree field of view
+     projectionMatrix = mat4.create();
+    
+     mat4.perspective(projectionMatrix, Math.PI / 4, canvas.width / canvas.height, 1, 100);
+     mat4.translate(projectionMatrix, projectionMatrix, [0, 0, -1]);
 }
 
 function draw(gl, objs) 
@@ -147,6 +148,8 @@ function update(glCtx, objs)
     requestAnimationFrame(()=>update(glCtx, objs));
 
     draw(glCtx, objs);
+    for(i = 0; i<objs.length; i++)
+    objs[i].update();
 }
 
 function createTriangle(gl, translation)
@@ -215,8 +218,8 @@ function main()
     initViewport(glCtx, canvas);
     initGL(glCtx, canvas);
 
+    createVerts(0, 1.4, 0, -1, -1, 1, 1, -1, 1, 4,glCtx);
     //createVerts(0, 1.4, 0, -1, -1, 0, 1, -1, 0, 3,glCtx);
-    createVerts(0, 1.4, 0, -1, -1, 0, 1, -1, 0, 3,glCtx);
 
     
     let triangle = createTriangle(glCtx,  [0, 0, -4]);
