@@ -251,6 +251,11 @@ function crearPlaneta(planetaName, textura, bump, geometryCords, positionCords, 
 
     //PLANETA TIERRA FIN
 
+    if(planetaName == 'saturno' || planetaName == 'urano'){
+        console.log("ENTRE")
+        crearAnillo(planetaName, positionCords, grupoPlaneta, angulo);
+    }
+
     var orbit = new THREE.Line(
         new THREE.CircleGeometry(positionCords[0], 90),
         new THREE.MeshBasicMaterial({
@@ -265,6 +270,38 @@ function crearPlaneta(planetaName, textura, bump, geometryCords, positionCords, 
     scene.add(orbit);
     
     sunGroup.add(orbit);
+}
+
+
+function crearAnillo(planetaName, positionCords, grupoPlaneta, angulo){
+
+    let mapUrl = "./texturas/"+planetaName+"anillo.jpg";
+
+    let textureMap = new THREE.TextureLoader().load(mapUrl);
+    
+    var geometry = new THREE.RingGeometry( 1, 1.5, 32 );
+    var material = new THREE.MeshBasicMaterial( { map: textureMap, side: THREE.DoubleSide } );
+    var anillo = new THREE.Mesh( geometry, material);
+    
+      // Tilt the mesh toward the viewer
+      anillo.rotation.x = Math.PI / 5;
+      anillo.rotation.y = Math.PI / 5;
+  
+      //Pusheo a mi arreglo de planetas para rotacion
+      planets.push(anillo);
+  
+      x = positionCords[0] * Math.cos(angulo)
+      y = 0; 
+      z = positionCords[0] * Math.sin(angulo)
+  
+      grupoPlaneta.add(anillo);
+      grupoPlaneta.position.set(x,y,z);
+  
+      //Pusheo a mi arreglo de grupos para que roten al sol
+      groupObjectArray.push(grupoPlaneta);
+      
+      sunGroup.add(grupoPlaneta);
+
 }
 
 function crearLunas(planetaName,planetGroup, nLunas, lunaTextura, lunaSize, grupoLuna){
