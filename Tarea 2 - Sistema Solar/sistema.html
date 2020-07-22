@@ -38,8 +38,8 @@
         
         vec4 color = texture2D( texture2, T2 );
 
-        T1.x += noise.a * 2.0;
-        T1.y += noise.a * 2.0;
+        T1.x += noise.a * 3.0;
+        T1.y += noise.a * 3.0;
 
         T2.x -= noise.a * 0.2;
         T2.y += noise.a * 0.2;
@@ -50,7 +50,7 @@
 
         if(temp.r > 0.5 && temp.g > 0.5)
         {
-            temp.bg += 0.1;
+            temp.bg += 0.3;
         }
         
         gl_FragColor = temp ;

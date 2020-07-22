@@ -7,8 +7,6 @@ let duration = 5000; // ms
 let currentTime = Date.now();
 
 let groupObjectArray = [];
-let groupSatelitesArray = [];
-let satelitesArray = [];
 
 let planets = [];
 let moons = [];
@@ -27,6 +25,19 @@ let tierraLunaGroup = null;
 let marteGroup = null;
 let marteLunaGroup = null;
 
+let jupiterGroup = null;
+let jupiterLunaGroup = null;
+
+let saturnoGroup = null;
+let saturnoLunaGroup = null;
+
+let uranoGroup = null;
+let uranoLunaGroup = null;
+
+let neptunoGroup = null;
+let neptunoLunaGroup = null;
+
+let cinturonGroup = null;
 
 function animate() 
 {
@@ -36,16 +47,12 @@ function animate()
     let fract = deltat / duration;
     let angle = Math.PI * 1 * fract;
 
-    /*for(object of planets){
+    for(object of planets){
         object.rotation.y += angle;
-    }*/
-
-    /*for(object of satelitesArray){
-        object.rotation.y += angle;
-    }*/
+    }
 
     for(object of groupObjectArray){
-        object.rotation.y -= angle / 2;
+        object.rotation.y -= angle / 8;
     }
 
 }
@@ -77,7 +84,7 @@ function createScene(canvas)
     scene = new THREE.Scene();
 
     const loader = new THREE.TextureLoader();
-    loader.load('https://images.pexels.com/photos/1205301/pexels-photo-1205301.jpeg' , function(texture)
+    loader.load('./texturas/galaxy.jpg' , function(texture)
             {
              scene.background = texture;  
     });
@@ -167,18 +174,39 @@ function createScene(canvas)
     marteGroup = new THREE.Object3D;
     marteLunaGroup = new THREE.Object3D;
 
+    jupiterGroup = new THREE.Object3D;
+    jupiterLunaGroup = new THREE.Object3D;
 
-    crearPlaneta('mercurio','/mercurymap.jpg','/mercurybump.jpg',[.2, 15, 20],[2,0,0], mercurioGroup, 1, 'luna1.jpg',[.05, 10, 20],mercurioLunaGroup);
-    crearPlaneta('venus','/venusmap.jpg','/venusbump.jpg',[.3, 15, 20],[-4,0,0], venusGroup, 1, 'luna2.jpg',[.05, 10, 20],venusLunaGroup);
-    crearPlaneta('tierra','/earthmap1k.jpg','/earthbump1k.jpg',[.35, 15, 20],[6,0,0], tierraGroup, 1, 'lunaTierra.jpg',[.05, 10, 20],tierraLunaGroup);
-    crearPlaneta('marte','/mars_1k_color.jpg','/mars_1k_topo.jpg',[.3, 15, 20],[-8,0,0], marteGroup, 1, 'luna3.jpg',[.05, 10, 20],marteLunaGroup);
+    saturnoGroup = new THREE.Object3D;
+    saturnoLunaGroup = new THREE.Object3D;
+
+    uranoGroup = new THREE.Object3D;
+    uranoLunaGroup = new THREE.Object3D;
+
+    neptunoGroup = new THREE.Object3D;
+    neptunoLunaGroup = new THREE.Object3D;
+
+    cinturonGroup = new THREE.Object3D;
+
+    crearPlaneta('mercurio','/mercurymap.jpg','/mercurybump.jpg',[.2, 15, 20],[2,0,0], mercurioGroup, 1, 'luna1.jpg',[.05, 10, 20],mercurioLunaGroup, 180);
+    crearPlaneta('venus','/venusmap.jpg','/venusbump.jpg',[.3, 15, 20],[-4,0,0], venusGroup, 1, 'luna2.jpg',[.05, 10, 20],venusLunaGroup, 130);
+    crearPlaneta('tierra','/earthmap.jpg','/earthbump.jpg',[.35, 15, 20],[6,0,0], tierraGroup, 1, 'lunaTierra.jpg',[.05, 10, 20],tierraLunaGroup, 40);
+    crearPlaneta('marte','/marsmap.jpg','/marsbump.jpg',[.3, 15, 20],[-8,0,0], marteGroup, 2, 'luna3.jpg',[.05, 10, 20],marteLunaGroup, 210);
+
+    crearCinturon('cinturon','/cinturonmap.jpg','',[.05, 15, 20],[10,0,0], cinturonGroup);
+
+    crearPlaneta('jupiter','/jupitermap.png','/jupiterbump.png',[1, 15, 20],[12,0,0], jupiterGroup, 10, 'luna4.jpg',[.05, 10, 20],jupiterLunaGroup,320);
+    crearPlaneta('saturno','/saturnomap.jpg','',[.8, 15, 20],[-14,0,0], saturnoGroup, 10, 'luna1.jpg',[.05, 10, 20],saturnoLunaGroup,130);
+    crearPlaneta('urano','/uranusmap.jpg','',[.7, 15, 20],[16,0,0], uranoGroup, 10, 'luna2.jpg',[.05, 10, 20],uranoLunaGroup,80);
+    crearPlaneta('neptuno','/neptunomap.jpg','',[.8, 15, 20],[-18,0,0], neptunoGroup, 10, 'luna3.jpg',[.05, 10, 20],neptunoLunaGroup,0);
+
 
     groupObjectArray.push(sunGroup);
     scene.add( sunGroup );
     
 }
 
-function crearPlaneta(planetaName, textura, bump, geometryCords, positionCords, grupoPlaneta, nLunas, lunaTextura, lunaCords, grupoLuna){
+function crearPlaneta(planetaName, textura, bump, geometryCords, positionCords, grupoPlaneta, nLunas, lunaTextura, lunaSize, grupoLuna, angulo){
     //PLANETA TIERRA INICIO
     let mapUrl = "./texturas/"+planetaName+textura;
     let bumpMapUrl = "./texturas/"+planetaName+bump;
@@ -203,9 +231,13 @@ function crearPlaneta(planetaName, textura, bump, geometryCords, positionCords, 
     //Pusheo a mi arreglo de planetas para rotacion
     planets.push(planeta);
 
-    x = positionCords[0];
+    /*x = positionCords[0];
     y = positionCords[1];
-    z = positionCords[2];
+    z = positionCords[2];*/
+
+    x = positionCords[0] * Math.cos(angulo)
+    y = 0; 
+    z = positionCords[0] * Math.sin(angulo)
 
     grupoPlaneta.add(planeta);
     grupoPlaneta.position.set(x,y,z);
@@ -213,7 +245,7 @@ function crearPlaneta(planetaName, textura, bump, geometryCords, positionCords, 
     //Pusheo a mi arreglo de grupos para que roten al sol
     groupObjectArray.push(grupoPlaneta);
 
-    crearLunas(grupoPlaneta, nLunas, lunaTextura, lunaCords, grupoLuna);
+    crearLunas(planetaName,grupoPlaneta, nLunas, lunaTextura, lunaSize, grupoLuna);
     
     sunGroup.add(grupoPlaneta);
 
@@ -232,12 +264,10 @@ function crearPlaneta(planetaName, textura, bump, geometryCords, positionCords, 
     orbit.rotation.x = THREE.Math.degToRad(90);
     scene.add(orbit);
     
-    sunGroup.add(orbit)
-
-
+    sunGroup.add(orbit);
 }
 
-function crearLunas(planetGroup, nLunas, lunaTextura, lunaCords, grupoLuna){
+function crearLunas(planetaName,planetGroup, nLunas, lunaTextura, lunaSize, grupoLuna){
 
     while(nLunas>0){
         //PLANETA TIERRA INICIO
@@ -246,7 +276,7 @@ function crearLunas(planetGroup, nLunas, lunaTextura, lunaCords, grupoLuna){
         let material = new THREE.MeshPhongMaterial({ map: texture });
 
         // Create the cube geometry
-        let geometry = new THREE.SphereGeometry(lunaCords[0],lunaCords[1],lunaCords[2]);
+        let geometry = new THREE.SphereGeometry(lunaSize[0],lunaSize[1],lunaSize[2]);
 
         // And put the geometry and material together into a mesh
         let luna = new THREE.Mesh(geometry, material);
@@ -258,9 +288,27 @@ function crearLunas(planetGroup, nLunas, lunaTextura, lunaCords, grupoLuna){
         //Pusheo a mi arreglo de planetas para rotacion
         planets.push(luna);
 
-        x = .5
+        x = 0
         y = 0
         z = 0
+     
+        if(planetaName == 'jupiter' || planetaName == 'saturno' || planetaName == 'urano' || planetaName == 'neptuno'){
+
+            //Metodo random genera decimanales entre 0 y .5
+            lunax = Number.random(.5, 1, 2);
+            lunay = Number.random(-2, 2, 2);
+            lunaz = Number.random(.5, 1, 2);
+            luna.position.set(lunax, lunay, lunaz);
+
+        }else{
+
+            //Metodo random genera decimanales entre 0 y .5
+            lunax = Number.random(.3, .5, 2);
+            lunay = Number.random(-.3, .5, 2);
+            lunaz = Number.random(.3, .5, 2);
+            luna.position.set(lunax, lunay, lunaz);
+
+        }
 
         grupoLuna.add(luna);
         grupoLuna.position.set(x,y,z);
@@ -276,61 +324,52 @@ function crearLunas(planetGroup, nLunas, lunaTextura, lunaCords, grupoLuna){
 
 
 
-function crearCinturon(textura, geometryCords, positionCords, grupoPlaneta, nLunas, lunaTextura, lunaCords, grupoLuna){
-    //PLANETA TIERRA INICIO
-    let mapUrl = "./texturas/"+planetaName+textura;
-    let bumpMapUrl = "./texturas/"+planetaName+bump;
+function crearCinturon(planetaName, textura, bump, geometryCords, positionCords, grupoPlaneta){
 
-    let materials = {};
+ //PLANETA TIERRA INICIO
+ let mapUrl = "./texturas/"+planetaName+textura;
+ let bumpMapUrl = "./texturas/"+planetaName+bump;
 
-    let textureMap = new THREE.TextureLoader().load(mapUrl);
-    let bumpMap = new THREE.TextureLoader().load(bumpMapUrl);
+ let materials = {};
 
-    materials["phong-textured"] = new THREE.MeshPhongMaterial({ map: textureMap, bumpMap: bumpMap, bumpScale: 0.01 });
+ let textureMap = new THREE.TextureLoader().load(mapUrl);
+ let bumpMap = new THREE.TextureLoader().load(bumpMapUrl);
 
-    // Create the cube geometry
-    let geometry = new THREE.SphereGeometry( geometryCords[0], geometryCords[1], [geometryCords[2]] );
+ materials["phong-textured"] = new THREE.MeshPhongMaterial({ map: textureMap, bumpMap: bumpMap, bumpScale: 0.01 });
 
-    // And put the geometry and material together into a mesh
-    let planeta = new THREE.Mesh(geometry, materials["phong-textured"]);
+ // Create the cube geometry
+ let geometry = new THREE.SphereGeometry( geometryCords[0], geometryCords[1], [geometryCords[2]] );
 
-    // Tilt the mesh toward the viewer
-    planeta.rotation.x = Math.PI / 5;
-    planeta.rotation.y = Math.PI / 5;
 
-    //Pusheo a mi arreglo de planetas para rotacion
-    planets.push(planeta);
+    for(let i = 0;i<720;i++){        
 
-    x = positionCords[0];
-    y = positionCords[1];
-    z = positionCords[2];
+        // And put the geometry and material together into a mesh
+        let planeta = new THREE.Mesh(geometry, materials["phong-textured"]);
+        //Pusheo a mi arreglo de planetas para rotacion
+        planets.push(planeta);   
+        x = positionCords[0] * Math.cos(i) + Number.random(-3, 3, 0);
+        //x = x + Number.random(-.3, .3, 2);
+        y = Number.random(-.3, .3, 2); 
+        z = positionCords[0] * Math.sin(i)
+        planeta.position.set(x,y,z);
+        grupoPlaneta.add(planeta);
 
-    grupoPlaneta.add(planeta);
-    grupoPlaneta.position.set(x,y,z);
-
+    }
+    
     //Pusheo a mi arreglo de grupos para que roten al sol
     groupObjectArray.push(grupoPlaneta);
 
-    crearLunas(grupoPlaneta, nLunas, lunaTextura, lunaCords, grupoLuna);
-    
     sunGroup.add(grupoPlaneta);
 
-    //PLANETA TIERRA FIN
-
-    var orbit = new THREE.Line(
-        new THREE.CircleGeometry(positionCords[0], 90),
-        new THREE.MeshBasicMaterial({
-          color: 0xffffff,
-          transparent: true,
-          opacity: 1,
-          side: THREE.BackSide
-        })
-      );
-    orbit.geometry.vertices.shift();
-    orbit.rotation.x = THREE.Math.degToRad(90);
-    scene.add(orbit);
-    
-    sunGroup.add(orbit)
+}
 
 
+Number.random = function(minimum, maximum, precision) {
+    minimum = minimum === undefined ? 0 : minimum;
+    maximum = maximum === undefined ? 9007199254740992 : maximum;
+    precision = precision === undefined ? 0 : precision;
+
+    var random = Math.random() * (maximum - minimum) + minimum;
+
+    return random.toFixed(precision);
 }
