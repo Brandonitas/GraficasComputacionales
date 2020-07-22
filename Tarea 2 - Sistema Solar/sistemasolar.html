@@ -1,7 +1,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Sistema</title>
+<title>Sistema Solar</title>
 
 <link rel="stylesheet" href="../libs/jquery-ui/jquery-ui.css" />
 <link rel="stylesheet" href="../css/main.css" />
@@ -12,8 +12,7 @@
 <script src="../libs/three.js/three.js"></script>
 <script src="../libs/three.js/controls/OrbitControls.js"></script>
 
-
-<script src="sistema.js"></script>
+<script src="sistemasolar.js"></script>
 
 <script id="fragmentShader" type="x-shader/x-fragment">
     uniform float time;
@@ -69,19 +68,14 @@
     }
 </script>
 
-<script src="sceneHandlers.js"></script>
-
 <script type="text/javascript">
 
        
 	$(document).ready(
 			function() {
-					
 				let canvas = document.getElementById("webglcanvas");
-
 				// create the scene
                 createScene(canvas);
-
 		        // Run the run loop
 		        run();
 			}
@@ -90,9 +84,9 @@
 </script>
 
 </head>
-<body>
-	<div id="container">
-	    <canvas id="webglcanvas" width=800 height=600></canvas>
+<body style="background-image: url('./texturas/galaxy.jpg');  background-size: cover;">
+	<div id="container" style="width: 100%; text-align:center;">
+	    <canvas  id="webglcanvas" width=800 height=600 style="display: inline;"></canvas>
 	</div>
 </body>
 
