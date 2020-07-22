@@ -224,7 +224,7 @@ function crearPlaneta(planetaName, textura, bump, geometryCords, positionCords, 
         new THREE.MeshBasicMaterial({
           color: 0xffffff,
           transparent: true,
-          opacity: 1,
+          opacity: .4,
           side: THREE.BackSide
         })
       );
