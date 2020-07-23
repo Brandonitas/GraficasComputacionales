@@ -354,12 +354,12 @@ function crearCinturon(planetaName, textura, bump, geometryCords, positionCords,
 
     let geometry = new THREE.SphereGeometry( geometryCords[0], geometryCords[1], [geometryCords[2]] );
 
-        for(let i = 0;i<720;i++){        
+        for(let i = 0;i<4000;i++){        
             let planeta = new THREE.Mesh(geometry, materials["phong-textured"]);
             planets.push(planeta);   
-            x = positionCords[0] * Math.cos(i) + Number.random(-3, 3, 0);
-            y = Number.random(-.3, .3, 2); 
-            z = positionCords[0] * Math.sin(i)
+            x = positionCords[0] * Math.cos(i) + Number.random(-5, 5, 0);
+            y = Number.random(-.5, .5, 2); 
+            z = positionCords[0] * Math.sin(i) + Number.random(-5, 5, 0);
             planeta.position.set(x,y,z);
             grupoPlaneta.add(planeta);
         }
