@@ -172,17 +172,17 @@ function createScene(canvas)
 
     cinturonGroup = new THREE.Object3D;
 
-    crearPlaneta('mercurio','/mercurymap.jpg','/mercurybump.jpg',[.2, 15, 20],[2,0,0], mercurioGroup, 1, 'luna1.jpg',[.05, 10, 20],mercurioLunaGroup, 180);
-    crearPlaneta('venus','/venusmap.jpg','/venusbump.jpg',[.3, 15, 20],[-4,0,0], venusGroup, 1, 'luna2.jpg',[.05, 10, 20],venusLunaGroup, 130);
-    crearPlaneta('tierra','/earthmap.jpg','/earthbump.jpg',[.35, 15, 20],[6,0,0], tierraGroup, 1, 'lunaTierra.jpg',[.05, 10, 20],tierraLunaGroup, 40);
-    crearPlaneta('marte','/marsmap.jpg','/marsbump.jpg',[.3, 15, 20],[-8,0,0], marteGroup, 2, 'luna3.jpg',[.05, 10, 20],marteLunaGroup, 210);
+    crearPlaneta('mercurio','/mercurymap.jpg','/mercurybump.jpg','',[.2, 15, 20],[2,0,0], mercurioGroup, 1, 'luna1.jpg',[.05, 10, 20],mercurioLunaGroup, 180);
+    crearPlaneta('venus','/venusmap.jpg','/venusbump.jpg','',[.3, 15, 20],[-4,0,0], venusGroup, 1, 'luna2.jpg',[.05, 10, 20],venusLunaGroup, 130);
+    crearPlaneta('tierra','/earthmap.jpg','/earthbump.jpg','/earthnormal.jpg',[.35, 15, 20],[6,0,0], tierraGroup, 1, 'lunaTierra.jpg',[.05, 10, 20],tierraLunaGroup, 40);
+    crearPlaneta('marte','/marsmap.jpg','/marsbump.jpg','',[.3, 15, 20],[-8,0,0], marteGroup, 2, 'luna3.jpg',[.05, 10, 20],marteLunaGroup, 210);
 
     crearCinturon('cinturon','/cinturonmap.jpg','',[.05, 15, 20],[10,0,0], cinturonGroup);
 
-    crearPlaneta('jupiter','/jupitermap.png','/jupiterbump.png',[1, 15, 20],[12,0,0], jupiterGroup, 10, 'luna4.jpg',[.05, 10, 20],jupiterLunaGroup,320);
-    crearPlaneta('saturno','/saturnomap.jpg','',[.8, 15, 20],[-14,0,0], saturnoGroup, 10, 'luna1.jpg',[.05, 10, 20],saturnoLunaGroup,130);
-    crearPlaneta('urano','/uranusmap.jpg','',[.7, 15, 20],[16,0,0], uranoGroup, 10, 'luna2.jpg',[.05, 10, 20],uranoLunaGroup,80);
-    crearPlaneta('neptuno','/neptunomap.jpg','',[.8, 15, 20],[-18,0,0], neptunoGroup, 10, 'luna3.jpg',[.05, 10, 20],neptunoLunaGroup,0);
+    crearPlaneta('jupiter','/jupitermap.png','/jupiterbump.png','',[1, 15, 20],[12,0,0], jupiterGroup, 10, 'luna4.jpg',[.05, 10, 20],jupiterLunaGroup,320);
+    crearPlaneta('saturno','/saturnomap.jpg','','',[.8, 15, 20],[-14,0,0], saturnoGroup, 10, 'luna1.jpg',[.05, 10, 20],saturnoLunaGroup,130);
+    crearPlaneta('urano','/uranusmap.jpg','','',[.7, 15, 20],[16,0,0], uranoGroup, 10, 'luna2.jpg',[.05, 10, 20],uranoLunaGroup,80);
+    crearPlaneta('neptuno','/neptunomap.jpg','','',[.8, 15, 20],[-18,0,0], neptunoGroup, 10, 'luna3.jpg',[.05, 10, 20],neptunoLunaGroup,0);
 
     groupObjectArray.push(sunGroup);
 
@@ -190,17 +190,23 @@ function createScene(canvas)
     
 }
 
-function crearPlaneta(planetaName, textura, bump, geometryCords, positionCords, grupoPlaneta, nLunas, lunaTextura, lunaSize, grupoLuna, angulo){
+function crearPlaneta(planetaName, textura, bump, normal, geometryCords, positionCords, grupoPlaneta, nLunas, lunaTextura, lunaSize, grupoLuna, angulo){
     let mapUrl = "./texturas/"+planetaName+textura;
     let bumpMapUrl = "./texturas/"+planetaName+bump;
+    let normalMapUrl = "./texturas/"+planetaName+normal;;
 
     let materials = {};
 
     let textureMap = new THREE.TextureLoader().load(mapUrl);
     let bumpMap = new THREE.TextureLoader().load(bumpMapUrl);
+    let normalMap = new THREE.TextureLoader().load(normalMapUrl);
 
-    materials["phong-textured"] = new THREE.MeshPhongMaterial({ map: textureMap, bumpMap: bumpMap, bumpScale: 0.01 });
-
+    if(normal != ''){
+        materials["phong-textured"] = new THREE.MeshPhongMaterial({ map: textureMap, bumpMap: bumpMap,normalMap: normalMap, bumpScale: 0.01 });
+    }else{
+        materials["phong-textured"] = new THREE.MeshPhongMaterial({ map: textureMap, bumpMap: bumpMap, bumpScale: 0.01 });
+    }
+    
     // Create the planet geometry
     let geometry = new THREE.SphereGeometry( geometryCords[0], geometryCords[1], [geometryCords[2]] );
 
