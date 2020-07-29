@@ -34,42 +34,27 @@ class Scene1 extends THREE.Scene {
 			last: this.base_cube
 		})
 
-		this.newBox({
-			width: 200,
-			height: 200,
-			last: this.getLastBox()
-		})
+		// Evento
+		window.addEventListener('click', () => {
+			this.click();
+		});
 
-		this.newBox({
-			width: 200,
-			height: 200,
-			last: this.getLastBox()
-		})
-
-		this.newBox({
-			width: 200,
-			height: 200,
-			last: this.getLastBox()
-		})
-
-
-		this.newBox({
-			width: 200,
-			height: 200,
-			last: this.getLastBox()
-		})
-
-
-		this.newBox({
-			width: 200,
-			height: 200,
-			last: this.getLastBox()
-		})
+		//Helpers
+		//AxesHelper son los ejes
+		this.add(new THREE.AxesHelper(800))
 
 		//Luces
 		const ambientLight = new THREE.HemisphereLight(0xffffbb, 0x080820, .5);
 		const light = new THREE.DirectionalLight(0xffffff, 1.0);
 		this.add(light, ambientLight);
+	}
+
+	click(){
+		this.newBox({
+			width: 200,
+			height: 200,
+			last: this.getLastBox()
+		});
 	}
 
 	newBox({width, height, last}){
@@ -86,7 +71,8 @@ class Scene1 extends THREE.Scene {
 	}
 
 	update() {
-
+		//Obtengo ultimo bloque que debe de moverse y lo updeteo
+		this.getLastBox().update();
 	}
 }
 
