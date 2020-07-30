@@ -2,12 +2,14 @@
 import Cube from '../objects/Cube.js';
 import BoxCreator from '../objects/BoxCreator.js'
 import Box  from '../objects/Box.js'
+import Observer, { EVENTS } from '../Observer.js';
 
 class Scene1 extends THREE.Scene {
 	constructor() {
 		super();
 		this.background = new THREE.Color('skyblue').convertSRGBToLinear();
 		this.create();
+		this.events();
 	}
 
 	create() {
@@ -34,11 +36,6 @@ class Scene1 extends THREE.Scene {
 			last: this.base_cube
 		})
 
-		// Evento
-		window.addEventListener('click', () => {
-			this.click();
-		});
-
 		//Helpers
 		//AxesHelper son los ejes
 		this.add(new THREE.AxesHelper(800))
@@ -49,12 +46,24 @@ class Scene1 extends THREE.Scene {
 		this.add(light, ambientLight);
 	}
 
-	click(){
-		this.newBox({
-			width: 200,
-			height: 200,
-			last: this.getLastBox()
+	events(){
+		Observer.on(EVENTS.CLICK, (msg)=>{
+			console.log(msg)
+			this.newBox({
+				width: 200,
+				height: 200,
+				last: this.getLastBox()
+			});
 		});
+
+		Observer.on(EVENTS.STACK, ()=>{
+
+		})
+
+		Observer.on(EVENTS.GAME_OVER, ()=>{
+			
+		})
+
 	}
 
 	newBox({width, height, last}){
