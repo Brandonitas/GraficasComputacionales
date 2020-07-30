@@ -47,13 +47,15 @@ class Scene1 extends THREE.Scene {
 	}
 
 	events(){
+		//EVENTS.CLICK es un string pero es buena practica ponerlo asi 
 		Observer.on(EVENTS.CLICK, (msg)=>{
-			console.log(msg)
+			/*console.log(msg)
 			this.newBox({
 				width: 200,
 				height: 200,
 				last: this.getLastBox()
-			});
+			});*/
+			this.getLastBox().place();
 		});
 
 		Observer.on(EVENTS.STACK, ()=>{
@@ -61,7 +63,7 @@ class Scene1 extends THREE.Scene {
 		})
 
 		Observer.on(EVENTS.GAME_OVER, ()=>{
-			
+			console.log("Game over")
 		})
 
 	}

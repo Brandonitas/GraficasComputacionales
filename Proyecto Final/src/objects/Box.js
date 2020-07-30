@@ -1,5 +1,6 @@
 import  BoxCreator from "./BoxCreator.js";
 import generateColor from "../helpers/generateColors.js";
+import Observer, { EVENTS } from "../Observer.js";
 
 export default class Box extends BoxCreator {
     //Last es el ultimo cubo que se puso
@@ -23,6 +24,21 @@ export default class Box extends BoxCreator {
         //Posicion inicial un poco atras del cubo
         this.position[this.actual_axis] -= this.max_position * this.direction; 
 
+    }
+
+    //Cuando hacemos click que se posicione cubo
+    place(){
+        const plane = (this.actual_axis === 'x') ? 'width' : 'height';
+        
+        //Valor de corte
+        const distance_center = this.position[this.actual_axis] - this.last.position[this.actual_axis];
+        const overlay = this.last.dimension[plane] - Math.abs(distance_center);
+        //Si el overlay es negativo quiere decir que se salio de la dimension del cubo de abajo
+        if(overlay > 0){
+
+        }else{
+            Observer.emit(EVENTS.GAME_OVER);
+        }
     }
 
     update(){
