@@ -23,6 +23,7 @@ export default class Box extends BoxCreator {
 
         //Posicion inicial un poco atras del cubo
         this.position[this.actual_axis] -= this.max_position * this.direction; 
+        this.position[this.contray_axys] = last.position[this.contray_axys];
 
     }
 
@@ -62,7 +63,8 @@ export default class Box extends BoxCreator {
                 last_position: this.position,
                 //Para saber si lo corta en sentido positivo o negativo
                 //1 positivo, -1 negativo
-                direction: distance_center/Math.abs(distance_center)
+                //en caso de que de 0 regresa 1
+                direction: distance_center/Math.abs(distance_center) | 1
             }
 
             Observer.emit(EVENTS.STACK,new_box);

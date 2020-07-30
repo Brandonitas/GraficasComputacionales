@@ -3,11 +3,16 @@ import Cube from '../objects/Cube.js';
 import BoxCreator from '../objects/BoxCreator.js'
 import Box  from '../objects/Box.js'
 import Observer, { EVENTS } from '../Observer.js';
+import SlicesBox from '../objects/SlicesBox.js';
 
 class Scene1 extends THREE.Scene {
 	constructor() {
 		super();
 		this.background = new THREE.Color('skyblue').convertSRGBToLinear();
+
+		this.stack_points = 0;
+		this.game_over = true;
+
 		this.create();
 		this.events();
 	}
@@ -59,7 +64,24 @@ class Scene1 extends THREE.Scene {
 		});
 
 		Observer.on(EVENTS.STACK, (new_box)=>{
+			//New box nos trae el dato de los dos bloques que vienen, el que se queda y el que se corta
 			console.log('NEW BOX IN STACK',new_box)
+			this.stack_points++;
+
+			//Removemos el bloque principal para separar bloques
+			this.boxes_group.remove(this.getLastBox());
+
+			//Espacio para cortar bloque
+			const actual_base_cut = new SlicesBox(new_box);
+			this.boxes_group.add(actual_base_cut.getBase());
+			this.add(actual_base_cut.getCut);
+
+			//Bloque nuevo
+			this.newBox({
+				width: new_box.base.width,
+				height: new_box.base.height,
+				last: this.getLastBox()
+			});
 		})
 
 		Observer.on(EVENTS.GAME_OVER, ()=>{
