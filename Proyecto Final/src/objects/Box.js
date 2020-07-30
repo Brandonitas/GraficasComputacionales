@@ -31,10 +31,42 @@ export default class Box extends BoxCreator {
         const plane = (this.actual_axis === 'x') ? 'width' : 'height';
         
         //Valor de corte
+        //A la posicion actual le restamos la posicion del pasado  
+        //Cuando el corte es perfecto la distance_center es 0
         const distance_center = this.position[this.actual_axis] - this.last.position[this.actual_axis];
+        //Overlay es cuando el cubo esta encima del otro se obtiene el valor de corte
+        //Si es positivo se obtiene el valor de la base que se va a quedar
+        //Esa base se resta al cubo que esta para obtener el sobrante 
         const overlay = this.last.dimension[plane] - Math.abs(distance_center);
         //Si el overlay es negativo quiere decir que se salio de la dimension del cubo de abajo
         if(overlay > 0){
+            //Obtenemos el cubo de abajo y le restamos el overlay que es el sobrante
+            const cut = this.last.dimension[plane] - overlay;
+            //Se genera nuevo cubo
+            const new_box = {
+                //Base es el cubo que se mantiene
+                base:{
+                    //Si se esta trabajando en width se queda el overlay
+                    //Si se esta moviendo por heigth no se necestia cortar el width
+                    width: (plane === 'width') ? overlay : this.dimension.width,
+                    height: (plane === 'height') ? overlay : this.dimension.height,
+                },
+                cut:{
+                    //Si se esta trabajando en width se queda el overlay
+                    //Si se esta moviendo por heigth no se necestia cortar el width
+                    width: (plane === 'width') ? cut : this.dimension.width,
+                    height: (plane === 'height') ? cut : this.dimension.height,
+                },
+                color: this.color,
+                axis: this.actual_axis,
+                last_position: this.position,
+                //Para saber si lo corta en sentido positivo o negativo
+                //1 positivo, -1 negativo
+                direction: distance_center/Math.abs(distance_center)
+            }
+
+            Observer.emit(EVENTS.STACK,new_box);
+            
 
         }else{
             Observer.emit(EVENTS.GAME_OVER);

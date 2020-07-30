@@ -58,8 +58,8 @@ class Scene1 extends THREE.Scene {
 			this.getLastBox().place();
 		});
 
-		Observer.on(EVENTS.STACK, ()=>{
-
+		Observer.on(EVENTS.STACK, (new_box)=>{
+			console.log('NEW BOX IN STACK',new_box)
 		})
 
 		Observer.on(EVENTS.GAME_OVER, ()=>{
