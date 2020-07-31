@@ -57,6 +57,7 @@ class Scene1 extends THREE.Scene {
 		});
 
 		Observer.on(EVENTS.START, ()=>{
+			this.resetGroup();
 			//Cuando empieza emitimos el evento de puntaje 
 			Observer.emit(EVENTS.UPDATE_POINTS, this.stack_points);
 			this.newBox({
@@ -95,7 +96,9 @@ class Scene1 extends THREE.Scene {
 			console.log("Game over");
 			if(!this.game_over){
 				this.stack_points = 0;
+				this.boxes_group.remove(this.getLastBox());
 			}
+			
 			this.game_over = true;
 		})
 
@@ -108,6 +111,10 @@ class Scene1 extends THREE.Scene {
 			last
 		});
 		this.boxes_group.add(actual_box);
+	}
+
+	resetGroup(){
+		this.boxes_group.remove(...this.boxes_group.children);
 	}
 
 	getLastBox(){

@@ -40,14 +40,20 @@ export class App {
         //Gracias a observables puedo acceder a los eventos en cualquier parte del codigo
         Observer.on(EVENTS.STACK, ()=>{
             this.camera.translateY(10)
+            this.camera.updateProjectionMatrix();
         })
 
         Observer.on(EVENTS.START, ()=>{
-
+            this.camera.zoom = 1;
+            this.camera.position.set(10, 300, 10);
+            this.camera.lookAt(0, 290, 0);
+            this.camera.updateProjectionMatrix();
         })
 
         Observer.on(EVENTS.GAME_OVER, ()=>{
-            
+            this.camera.zoom = .4;
+            this.camera.position.set(10, 1000, 10);
+            this.camera.updateProjectionMatrix();
         })
     }
 
