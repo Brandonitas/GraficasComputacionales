@@ -9,7 +9,7 @@ export default class SceneStack extends THREE.Scene {
 		super();
 		const userInterface = new UserInterface();
 
-		this.background = new THREE.Color('goldenrod');
+		this.background = new THREE.Color('#d7f8ff');
 
 		//Puntos de usuario
 		this.stack_points = 0;
@@ -27,7 +27,7 @@ export default class SceneStack extends THREE.Scene {
 			width: 200,
 			height: 200,
 			alt: 200,
-			color: 0x76B8F6
+			color: 0xcec5fa
 		});
 
 		//A mi scene la agrego la base

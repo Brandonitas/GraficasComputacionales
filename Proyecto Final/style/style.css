@@ -17,8 +17,8 @@ body {
 	text-align: center;
 	width: 100%;
 	font-size: 4rem;
-	color: white;
-	text-shadow: 2px 2px black;
+	color: #000033;
+	text-shadow: 2px 2px#a9fdd8;
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -36,12 +36,12 @@ body {
 
 #btn-start button{
 	padding: 10px 20px;
-	background: #9d2d38;
-	color: white;
-	border: 1px solid white;
+	background: #fef1d2;
+	color: 	#57687a;
+	border: 1px solid #57687a;
 	border-radius: 5px;
 	font-size: 3rem;
-	text-shadow: 2px 2px black;
+	text-shadow: 2px 2px#a9fdd8;
 	cursor: pointer;
-	box-shadow: 2px 2px black;
+	box-shadow: 2px 2px#a9fdd8;
 }
