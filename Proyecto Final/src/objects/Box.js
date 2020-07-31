@@ -16,8 +16,10 @@ export default class Box extends BoxCreator {
         //Posicion maxima que se va a estar moviendo de derecha a izquierda el bloque
         this.max_position = 360;
         this.is_stopped = false;
+        //Punto inicial
         this.direction = 1;
         this.speed = 4;
+        this.actual = last.axis;
         this.actual_axis = (Math.random() >= 0.5) ? 'x' : 'z';
         this.contray_axys = (this.actual_axis === 'x') ? 'z' : 'x';
 
@@ -29,20 +31,25 @@ export default class Box extends BoxCreator {
 
     //Cuando hacemos click que se posicione cubo
     place(){
+        //Necesito saber si voy a modificar mi ancho o alto
         const plane = (this.actual_axis === 'x') ? 'width' : 'height';
         
         //Valor de corte
         //A la posicion actual le restamos la posicion del pasado  
         //Cuando el corte es perfecto la distance_center es 0
         const distance_center = this.position[this.actual_axis] - this.last.position[this.actual_axis];
+        console.log("DISTANCE CENTER", distance_center)
+        
         //Overlay es cuando el cubo esta encima del otro se obtiene el valor de corte
         //Si es positivo se obtiene el valor de la base que se va a quedar
         //Esa base se resta al cubo que esta para obtener el sobrante 
         const overlay = this.last.dimension[plane] - Math.abs(distance_center);
+        console.log("OVERLAY", overlay)
         //Si el overlay es negativo quiere decir que se salio de la dimension del cubo de abajo
         if(overlay > 0){
-            //Obtenemos el cubo de abajo y le restamos el overlay que es el sobrante
+            //Obtenemos el cubo de abajo y le restamos el overlay que es el sobrante que se va a borrar
             const cut = this.last.dimension[plane] - overlay;
+            
             //Se genera nuevo cubo
             const new_box = {
                 //Base es el cubo que se mantiene

@@ -1,14 +1,15 @@
-//import { PerspectiveCamera, Vector3, WebGLRenderer, sRGBEncoding } from 'three';
-import Scene1 from './scenes/Scene1.js';
+import SceneStack from './scenes/SceneStack.js';
 import Observer, { EVENTS } from './Observer.js';
 
 export class App {
 	constructor(container) {
+        //HTML container
         this.container = container;
         
-		this.scene = new Scene1();
+        //Jalo la escena
+		this.scene = new SceneStack();
 
-        // ## Camera's config
+        // Camara
 		this.camera = new THREE.OrthographicCamera(
             this.container.clientWidth / -2, 
             this.container.clientWidth / 2, 
@@ -18,18 +19,14 @@ export class App {
 		this.camera.position.set(10, 300, 10);
         this.camera.lookAt(0, 290, 0);
 
-		// ## Renderer's config
+        //Render
 		this.renderer = new THREE.WebGLRenderer({
 			antialias: true,
 		})
 		this.renderer.setPixelRatio(window.devicePixelRatio);
-
-		// sRGBEncoding
 		this.renderer.outputEncoding = THREE.sRGBEncoding;
 
-		// ## Light's config
-		this.renderer.physicallyCorrectLights = true;
-
+        //El render me proporciona el canvas y ya no lo necesito en el html
 		this.container.appendChild(this.renderer.domElement);
 		this.onResize();
         this.render();
@@ -39,7 +36,7 @@ export class App {
     events(){
         //Gracias a observables puedo acceder a los eventos en cualquier parte del codigo
         Observer.on(EVENTS.STACK, ()=>{
-            this.camera.translateY(10)
+            this.camera.translateY(25)
             this.camera.updateProjectionMatrix();
         })
 
@@ -69,11 +66,11 @@ export class App {
 	}
 
 	render() {
-		this.renderer.render(this.scene, this.camera);
-
+        this.renderer.render(this.scene, this.camera);
+        //requestAnimationFrame(function() { this.render()});
+        this.renderer.setAnimationLoop(() => this.render());
+        
 		// Updates here
 		this.scene.update();
-
-		this.renderer.setAnimationLoop(() => this.render());
 	}
 }

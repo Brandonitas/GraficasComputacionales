@@ -1,16 +1,14 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Stack-Block</title>
+    <title>Proyecto final - StackBlocks</title>
 
     <link rel="stylesheet" href="./style/style.css">
-    <link rel="stylesheet" href="../libs/jquery-ui/jquery-ui.css" />
-
-    <script src="../libs/jquery-3.4.1/jquery-3.4.1.min.js"></script>
-    <script src="../libs/jquery-ui/jquery-ui.js"></script>
+    <link rel="stylesheet" href="./style/animate.min.css">
+    <link rel="stylesheet" href="../libs/jquery-ui/jquery-ui.css"/>
+    
     <script src="../libs/three.js/three.js"></script>
-    <script src="../libs/three.js/controls/OrbitControls.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/eventemitter3/4.0.4/index.min.js"></script>
+    <script src="../libs/eventemitter3/index.min.js"></script>
 
     <script type="module" src="./src/main.js"></script>
     <script type="module" src="./src/App.js"></script>
@@ -18,6 +16,11 @@
 </head>
 
 <body>
+    <div id="points" class="animate__animated noselect">0</div>
+    <div id="button-start" class="animate__animated noselect">
+        <button>Start</button>
+    </div>
+    <div id="gameover" class="animate__animated noselect">Game over</div>
     <div id="game-container"></div>
 </body>
 

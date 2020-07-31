@@ -8,6 +8,6 @@ window.addEventListener('resize', () => {
 	app.onResize();
 });
 
-container.addEventListener('click', ()=>{
+document.addEventListener('click', ()=>{
      Observer.emit(EVENTS.CLICK, 'Click');
 })

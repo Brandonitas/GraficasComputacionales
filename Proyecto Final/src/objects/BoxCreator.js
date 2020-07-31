@@ -1,9 +1,7 @@
 //Me genera los cubos que se apilan 
-
 export default class BoxCreator extends THREE.Mesh {
 	constructor( {width, height, alt = 40, color} ) {
-		super();
-
+        super();
 		this.geometry = new THREE.BoxBufferGeometry(width, alt, height);
 		this.material = new THREE.MeshStandardMaterial({
 			color,
