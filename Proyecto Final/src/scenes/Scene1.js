@@ -10,6 +10,7 @@ class Scene1 extends THREE.Scene {
 		this.background = new THREE.Color('skyblue').convertSRGBToLinear();
 
 		this.stack_points = 0;
+		//Cuando empieza la partida esta en game over
 		this.game_over = true;
 
 		this.create();
@@ -33,13 +34,6 @@ class Scene1 extends THREE.Scene {
 		this.boxes_group = new THREE.Object3D;
 		this.add(this.boxes_group); 
 
-		//La propiedad de alt no hace falta ya que se auto asigna en BoxCreator.js y se pone automatico en 40
-		this.newBox({
-			width: 200,
-			height: 200,
-			last: this.base_cube
-		})
-
 		//Helpers
 		//AxesHelper son los ejes
 		this.add(new THREE.AxesHelper(800))
@@ -51,16 +45,28 @@ class Scene1 extends THREE.Scene {
 	}
 
 	events(){
+		Observer.emit(EVENTS.NEW_GAME);
+
 		//EVENTS.CLICK es un string pero es buena practica ponerlo asi 
 		Observer.on(EVENTS.CLICK, (msg)=>{
-			/*console.log(msg)
-			this.newBox({
-				width: 200,
-				height: 200,
-				last: this.getLastBox()
-			});*/
-			this.getLastBox().place();
+			if(this.game_over){
+				Observer.emit(EVENTS.START);
+			}else{
+				this.getLastBox().place();
+			}
 		});
+
+		Observer.on(EVENTS.START, ()=>{
+			//Cuando empieza emitimos el evento de puntaje 
+			Observer.emit(EVENTS.UPDATE_POINTS, this.stack_points);
+			this.newBox({
+				width:200,
+				height:200,
+				last:this.base_cube
+			});
+
+			this.game_over = false;
+		})
 
 		Observer.on(EVENTS.STACK, (new_box)=>{
 			//New box nos trae el dato de los dos bloques que vienen, el que se queda y el que se corta
@@ -86,7 +92,11 @@ class Scene1 extends THREE.Scene {
 		})
 
 		Observer.on(EVENTS.GAME_OVER, ()=>{
-			console.log("Game over")
+			console.log("Game over");
+			if(!this.game_over){
+				this.stack_points = 0;
+			}
+			this.game_over = true;
 		})
 
 	}
@@ -106,7 +116,9 @@ class Scene1 extends THREE.Scene {
 
 	update() {
 		//Obtengo ultimo bloque que debe de moverse y lo updeteo
-		this.getLastBox().update();
+		if(!this.game_over){
+			this.getLastBox().update();
+		}
 	}
 }
 

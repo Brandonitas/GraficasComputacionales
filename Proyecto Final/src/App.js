@@ -41,6 +41,14 @@ export class App {
         Observer.on(EVENTS.STACK, ()=>{
             this.camera.translateY(10)
         })
+
+        Observer.on(EVENTS.START, ()=>{
+
+        })
+
+        Observer.on(EVENTS.GAME_OVER, ()=>{
+            
+        })
     }
 
 	onResize() {
