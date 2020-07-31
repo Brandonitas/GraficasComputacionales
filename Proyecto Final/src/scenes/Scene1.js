@@ -1,5 +1,4 @@
 //import { Scene, Color, DirectionalLight, HemisphereLight } from 'three';
-import Cube from '../objects/Cube.js';
 import BoxCreator from '../objects/BoxCreator.js'
 import Box  from '../objects/Box.js'
 import Observer, { EVENTS } from '../Observer.js';
