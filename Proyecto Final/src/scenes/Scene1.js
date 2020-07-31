@@ -74,7 +74,9 @@ class Scene1 extends THREE.Scene {
 			//Espacio para cortar bloque
 			const actual_base_cut = new SlicesBox(new_box);
 			this.boxes_group.add(actual_base_cut.getBase());
-			this.add(actual_base_cut.getCut);
+
+			//El corte que debe de desaparecer
+			//this.add(actual_base_cut.getCut());
 
 			//Bloque nuevo
 			this.newBox({

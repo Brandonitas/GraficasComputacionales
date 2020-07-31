@@ -1,10 +1,11 @@
 //import { PerspectiveCamera, Vector3, WebGLRenderer, sRGBEncoding } from 'three';
 import Scene1 from './scenes/Scene1.js';
+import Observer, { EVENTS } from './Observer.js';
 
 export class App {
 	constructor(container) {
-		this.container = container;
-
+        this.container = container;
+        
 		this.scene = new Scene1();
 
         // ## Camera's config
@@ -14,13 +15,8 @@ export class App {
             this.container.clientWidth / 2, 
             this.container.clientHeight / -2, 
             -1000,1000);
-		this.camera.position.set(10, 10, 10);
-        this.camera.lookAt(0, 0, 0);
-        
-        //Add orbit controls 
-        this.controls = new THREE.OrbitControls(this.camera, this.container);
-        this.controls.enableDamping = true;
-        this.controls.dampingFactor = 1;
+		this.camera.position.set(10, 300, 10);
+        this.camera.lookAt(0, 290, 0);
 
 		// ## Renderer's config
 		this.renderer = new THREE.WebGLRenderer({
@@ -36,8 +32,16 @@ export class App {
 
 		this.container.appendChild(this.renderer.domElement);
 		this.onResize();
-		this.render();
-	}
+        this.render();
+        this.events();
+    }
+    
+    events(){
+        //Gracias a observables puedo acceder a los eventos en cualquier parte del codigo
+        Observer.on(EVENTS.STACK, ()=>{
+            this.camera.translateY(10)
+        })
+    }
 
 	onResize() {
 		this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
