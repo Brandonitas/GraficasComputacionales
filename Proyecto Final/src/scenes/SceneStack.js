@@ -108,10 +108,13 @@ export default class SceneStack extends THREE.Scene {
 	}
 
 	newBox({width, height, last}){
+		const boxesLenght = this.boxes_group.children.length;
+		console.log("N BOXES",boxesLenght)
 		const actual_box = new Box({
 			width,
 			height,
-			last
+			last,
+			boxesLenght
 		});
 		this.boxes_group.add(actual_box);
 	}

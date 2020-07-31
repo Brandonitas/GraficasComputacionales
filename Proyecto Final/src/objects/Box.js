@@ -4,9 +4,12 @@ import Observer, { EVENTS } from "../Observer.js";
 
 export default class Box extends BoxCreator {
     //Last es el ultimo cubo que se puso
-    constructor({width, height, last}){
+    constructor({width, height, last, boxesLenght}){
         super({width, height, color: generateColor()})
         this.last = last;
+
+        //Para ir aumentando la velocidad
+        this.boxesLenght = boxesLenght;
 
         //Modificamos la posicion del cubo para amonotonar
         //Last.position.y es la ultima posicion central
@@ -18,7 +21,7 @@ export default class Box extends BoxCreator {
         this.is_stopped = false;
         //Punto inicial
         this.direction = 1;
-        this.speed = 4;
+        this.speed = 4 + boxesLenght/2;
         this.actual = last.axis;
         this.actual_axis = (Math.random() >= 0.5) ? 'x' : 'z';
         this.contray_axys = (this.actual_axis === 'x') ? 'z' : 'x';
