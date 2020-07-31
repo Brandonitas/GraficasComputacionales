@@ -12,7 +12,7 @@ body {
 	height: 100vh;
 }
 
-#points, #gameover, #button-start{
+#points, #gameover, #btn-start{
 	position: absolute;
 	text-align: center;
 	width: 100%;
@@ -26,7 +26,7 @@ body {
 	top: -10%;
 }
 
-#button-start{
+#btn-start{
 	top: -30%
 }
 
@@ -34,25 +34,14 @@ body {
 	top: -30%;
 }
 
-#button-start button{
+#btn-start button{
 	padding: 10px 20px;
-	background: none;
+	background: #9d2d38;
 	color: white;
 	border: 1px solid white;
-	border-radius: 3px;
+	border-radius: 5px;
 	font-size: 3rem;
 	text-shadow: 2px 2px black;
 	cursor: pointer;
-	box-shadow: 2px 2px black, 2px 2px black inset;
-	/*top: -30%;*/
-}
-
-#button-start button:hover{
-	color: #d6d4d4;
-	background-color: #64afcc;
-
-}
-
-.noselect{
-	user-select: none;
+	box-shadow: 2px 2px black;
 }

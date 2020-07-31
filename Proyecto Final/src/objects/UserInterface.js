@@ -4,7 +4,7 @@ export default class UserInterface {
 	constructor() {
         //Referencia de mis objetos del html
 		this.points = document.getElementById('points');
-		this.button_start = document.getElementById('button-start');
+		this.button_start = document.getElementById('btn-start');
 		this.gameover = document.getElementById('gameover');
 
 		this.events();
